@@ -1,0 +1,78 @@
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'net.serenity-bdd.aggregator'
+
+group 'testingslag.com'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 11 // compatibilidad con la version de java//
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+repositories {
+    mavenCentral()  // se descargan las librerias del proyecto//
+}
+
+buildscript {  // aquí se incorporan los plugins
+    repositories {
+        mavenCentral()
+        maven { url "https://plugins.gradle.org/m2/" }
+    }
+    dependencies {
+        classpath "net.serenity-bdd:serenity-gradle-plugin:2.0.70"
+        classpath "gradle.plugin.com.github.sherter.google-java-format:google-java-format-gradle-plugin:0.9"  // Versión actualizada
+    }
+}
+
+allprojects {
+    apply plugin: 'java'
+    apply plugin: 'idea'
+    apply plugin: 'net.serenity-bdd.aggregator'
+    apply plugin: 'com.github.sherter.google-java-format'
+    sourceCompatibility = 11
+    targetCompatibility = 11
+}
+
+ext {
+    serenityVersion = '2.0.70'
+    serenityCucumberVersion = '1.9.45'
+}
+
+dependencies {
+    implementation "net.serenity-bdd:serenity-screenplay:$rootProject.ext.serenityVersion"
+    implementation "net.serenity-bdd:serenity-screenplay-webdriver:$rootProject.ext.serenityVersion"
+    implementation "net.serenity-bdd:serenity-cucumber:$rootProject.ext.serenityCucumberVersion"
+    implementation "net.serenity-bdd:serenity-core:$rootProject.ext.serenityVersion"
+    implementation "net.serenity-bdd:serenity-junit:$rootProject.ext.serenityVersion"
+    testImplementation "net.serenity-bdd:serenity-ensure:$rootProject.ext.serenityVersion"
+    implementation "co.com.devco.automation:automationDevcoLibrary:1.3.7"
+    implementation 'io.appium:java-client:7.0.0'
+    implementation 'org.apache.poi:poi:3.17'
+    implementation 'org.apache.poi:poi-ooxml:3.17'
+    implementation 'com.codoid.products:fillo:1.18'
+    implementation 'org.apache.commons:commons-lang3:3.8'
+    implementation 'org.apache.logging.log4j:log4j-api:2.6.1'
+    implementation 'org.apache.logging.log4j:log4j-core:2.6.1'
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.assertj:assertj-core:3.6.2'
+    testImplementation 'org.slf4j:slf4j-simple:1.7.7'
+    testImplementation 'org.hamcrest:hamcrest-all:1.3'
+    implementation "net.serenity-bdd:serenity-core:2.0.70"
+    implementation "net.serenity-bdd:serenity-screenplay-webdriver:2.0.70"
+    implementation "org.seleniumhq.selenium:selenium-java:3.141.59"
+}
+
+tasks.withType(Test) {
+    systemProperty "file.encoding", "UTF-8"
+}
+
+compileJava.dependsOn 'googleJavaFormat'
+
+gradle.startParameter.continueOnFailure = true
+
+googleJavaFormat {
+    toolVersion = "1.9"  // Versión estable del formateador de Google para Java
+}
+
