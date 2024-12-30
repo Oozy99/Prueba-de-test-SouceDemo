@@ -9,7 +9,7 @@ import org.junit.runner.RunWith;
 @CucumberOptions(
     features =
         "src/test/resources/feature/agregar_producto_carrito.feature", // definicion de los features
-                                                                       // en los
+    // en los
     // runners
     // NOTA: ASEGURATE DE QUE ESTE VIEN INDICADA LA RUTA
     glue =
